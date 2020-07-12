@@ -1,0 +1,2 @@
+# cypascript
+cypa script ubuntu
