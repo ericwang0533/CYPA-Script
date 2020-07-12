@@ -1,8 +1,6 @@
 #!/bin/bash
 #cyberpatriot ubuntu script: h0dl3 
 
-#test test commit
-
 echo "Cyberpatriot Ubuntu Script: h0dl3"
 
 #check if you are running as root
