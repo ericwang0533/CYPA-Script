@@ -133,6 +133,22 @@ malware(){
 
 
 
+#File Permissions
+fileperms(){
+	chown root:root /etc/securetty
+	chmod 0600 /etc/securetty
+	chmod 644 /etc/crontab
+	chmod 640 /etc/ftpusers
+	chmod 440 /etc/inetd.conf
+	chmod 440 /etc/xinted.conf
+	chmod 400 /etc/inetd.d
+	chmod 644 /etc/hosts.allow
+	chmod 440 /etc/sudoers
+	chmod 640 /etc/shadow
+	chown root:root /etc/shadow
+}
+
+
 
 
 
@@ -229,6 +245,35 @@ else
 	media
 	malware
 fi
+
+#yorn: yes or no, ask to move on to the next task
+read -p "Move on to File Permissions? y/n/s (skip): " yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo "Skipped"
+else
+	#y, call the functions
+	fileperms
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #end of script
