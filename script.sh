@@ -107,6 +107,36 @@ updates(){
 }
 
 
+
+#Media/Malware
+#media
+media(){
+	#find media files
+	find /home -type f \( -name "*.mp3" -o -name "*.mov" -o -name "*.mp4" -o -name "*.avi" -o -name 			"*.mpg" -o -name "*.mpeg" -o -name "*.flac" -o -name "*.m4a" -o -name "*.flv" -o -name "*.ogg" -o -name "*.gif" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) > find_results.txt
+}
+
+#malware
+malware(){
+	#array of malware
+	mal=(john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh)
+	
+	#loop through each application
+	for i in ${mal[*]}; do
+		apt-get autoremove --purge $i
+	done
+}
+
+
+
+
+
+
+
+
+
+
+
+
 #Starting the actual checklist, slowly calling all the functions above
 echo "Starting Checklist"
 
@@ -178,6 +208,22 @@ else
 	updates
 fi
 
+#yorn: yes or no, ask to move on to the next task
+read -p "Move on to Media/Malware? y/n/s (skip): " yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo "Skipped"
+else
+	#y, call the functions
+	media
+	malware
+fi
 
 
 #end of script
