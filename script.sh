@@ -156,6 +156,7 @@ fileperms(){
 }
 
 
+
 #Firewall
 firewall(){
 	#install firewall
@@ -176,6 +177,54 @@ firewall(){
 	ufw status verbose
 }
 
+
+
+#Cron
+crontab(){
+	#view crontabs
+	sudo crontab -e
+	
+	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
+	read -p "View cron.d y/n: " yorn
+	if [ $yorn == y ]; then
+		ls /etc/cron.d
+	fi
+
+	read -p "View cron.daily y/n: " yorn
+	if [ $yorn == y ]; then
+		ls /etc/cron.daily
+	fi
+
+	read -p "View cron.hourly y/n: " yorn
+	if [ $yorn == y ]; then
+		ls /etc/cron.hourly
+	fi
+
+	read -p "View cron.weekly y/n: " yorn
+	if [ $yorn == y ]; then
+		ls /etc/cron.weekly
+	fi
+
+	read -p "View cron.monthly y/n: " yorn
+	if [ $yorn == y ]; then
+		ls /etc/cron.monthly
+	fi
+	
+	read -p "View /etc/rc.local y/n: " yorn
+	if [ $yorn == y ]; then
+		vim /etc/rc.local
+	fi
+
+}
+
+
+
+#SSH
+ssh(){
+	#is ssh a critical service?
+	read -p "Is SSH a critical service? y/n: " yorn
+
+}
 
 
 
@@ -303,9 +352,39 @@ else
 	firewall
 fi
 
+#yorn: yes or no, ask to move on to the next task
+read -p "Move on to Cron? y/n/s (skip): " yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo "Skipped"
+else
+	#y, call the functions
+	crontab
+fi
 
 
 
+#yorn: yes or no, ask to move on to the next task
+read -p "Move on to SSH? y/n/s (skip): " yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo "Skipped"
+else
+	#y, call the functions
+	ssh
+fi
 
 
 
