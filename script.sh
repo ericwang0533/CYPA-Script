@@ -113,6 +113,11 @@ updates(){
 media(){
 	#find media files
 	find /home -type f \( -name "*.mp3" -o -name "*.txt" -o -name "*.xlsx" -o -name "*.mov" -o -name "*.mp4" -o -name "*.avi" -o -name 			"*.mpg" -o -name "*.mpeg" -o -name "*.flac" -o -name "*.m4a" -o -name "*.flv" -o -name "*.ogg" -o -name "*.gif" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) > find_results.txt
+	
+	#open find_results.txt
+	less find_results.txt
+
+
 	read -p "Move on to Malware? y/n: " yorn
 	if [ $yorn == n ]; then
 		echo "Stopping Script :("
