@@ -2,6 +2,8 @@
 #cyberpatriot ubuntu script: h0dl3 
 
 echo "Cyberpatriot Ubuntu Script: h0dl3"
+echo "FORESNIC README"
+
 
 #check if you are running as root
 if [ $USER != root ]; then 
@@ -154,7 +156,25 @@ fileperms(){
 }
 
 
+#Firewall
+firewall(){
+	#install firewall
+	read -p "Install Firewall? y/n: " yorn
+	if [ $yorn = y ]; then
+		apt-get install ufw
+	fi
 
+	ufw enable
+	ufw allow ssh
+	ufw allow http
+	ufw allow https
+	ufw deny 23
+	ufw deny 2049
+	ufw deny 515
+	ufw deny 111
+	ufw logging high
+	ufw status verbose
+}
 
 
 
@@ -267,6 +287,21 @@ else
 	fileperms
 fi
 
+#yorn: yes or no, ask to move on to the next task
+read -p "Move on to Firewall? y/n/s (skip): " yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo "Skipped"
+else
+	#y, call the functions
+	firewall
+fi
 
 
 
