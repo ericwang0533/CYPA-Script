@@ -5,7 +5,7 @@ echo "Cyberpatriot Ubuntu Script: h0dl3"
 
 #check if you are running as root
 if [ $USER != root ]; then 
-``#not root
+  #not root
 	echo "Retry as root: sudo su"
 	exit
 else
