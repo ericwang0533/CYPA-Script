@@ -223,7 +223,24 @@ crontab(){
 ssh(){
 	#is ssh a critical service?
 	read -p "Is SSH a critical service? y/n: " yorn
+	if [ $yorn == y ]; then
+		#install ssh
+		apt-get install ssh
+		apt-get install openssh-server
+		
+		#open /etc/ssh/sshd_config
+		vim /etc/ssh/sshd_config
 
+		#Restart SSH?
+		read -p "Restart SSH? y/n: " yorn
+		if [ $yorn = y ]; then
+			service ssh restart
+		fi
+	elif [ $yorn == n ]; then
+		#uninstall ssh
+		apt-get autoremove --purge ssh
+		apt-get autoremove --purge openssh-server
+	fi
 }
 
 
