@@ -1,9 +1,12 @@
 #!/bin/bash
 #cyberpatriot ubuntu script: h0dl3 
 
+echo "------------------------------------------------------------"
 echo "Cyberpatriot Ubuntu Script: h0dl3"
+echo "-------------------------------------------------------------"
 echo "FORESNIC README"
-
+echo "PASSWORD"
+echo "-------------------------------------------------------------"
 
 #check if you are running as root
 if [ $USER != root ]; then 
@@ -18,26 +21,34 @@ fi
 #Users/Groups/sudoers
 #users first
 users(){
+	echo "Opening /etc/passwd"
+	sleep 3s
 	#open /etc/passwd
 	vim /etc/passwd
 }
 
 #groups next
 groups(){
+	echo "Opening /etc/group"
+	sleep 3s
 	#open /etc/group
 	vim /etc/group
 }
 
 #sudoers last
 sudoers(){
+	echo "Opening sudoers, sudo visudo"
+	sleep 3s
 	#open /etc/sudoers
-	vim /etc/sudoers
+	sudo visudo
 }
 
 
 
 #Password Requirements
 logindefs(){
+	echo "Opening /etc/login.defs"
+	sleep 3s
 	#open /etc/login.defs
 	vim /etc/login.defs
 }
@@ -45,24 +56,21 @@ logindefs(){
 #PAM
 #common-password
 common-password(){
-	#open /etc/pam.d/common-password
-	vim /etc/pam.d/common-password
+	echo "Installing cracklib"
+	sleep 3s
 	
-	#install cracklib?
-	read -p "Install cracklib? y/n: " yorn
-	if [ $yorn == y ]; then
-		apt-get install libpam-cracklib -y
-
-		#reopen /etc/pam.d/common-password
-		read -p "Reopen common-password? y/n: " yorn
-		if [ $yorn == y ]; then
-			vim /etc/pam.d/common-password
-		fi
-	fi
+	apt-get install libpam-cracklib -y
+	
+	echo "Opening /etc/pam.d/common-password"
+	sleep 3s
+	#open /etc/pam.d/common-password
+	vim /etc/pam.d/common-password	
 }
 
 #common-auth
 common-auth(){
+	echo "Opening /etc/pam.d/common-auth"
+	sleep 3s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
 }
@@ -72,6 +80,8 @@ common-auth(){
 #Guest Access
 #lightdm
 lightdm(){
+	echo "Opening /etc/lightdm/lightdm.conf"
+	sleep 3s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
 }
@@ -130,10 +140,12 @@ media(){
 #malware
 malware(){
 	#array of malware
-	mal=(john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh)
+	mal=(minetest ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh-server)
 	
 	#loop through each application
 	for i in ${mal[*]}; do
+		echo "---------------------------------------------------------"
+		echo "Removing $i"
 		apt-get autoremove --purge $i
 	done
 }
@@ -159,11 +171,10 @@ fileperms(){
 
 #Firewall
 firewall(){
+	echo "Installing Firewall"
+	sleep 3s
 	#install firewall
-	read -p "Install Firewall? y/n: " yorn
-	if [ $yorn = y ]; then
-		apt-get install ufw
-	fi
+	apt-get install ufw
 
 	ufw enable
 	ufw allow ssh
@@ -181,33 +192,35 @@ firewall(){
 
 #Cron
 crontab(){
+	echo "Opening crontab"
+	sleep 3s
 	#view crontabs
 	sudo crontab -e
 	
 	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
 	read -p "View cron.d y/n: " yorn
 	if [ $yorn == y ]; then
-		ls /etc/cron.d
+		ls -a /etc/cron.d
 	fi
 
 	read -p "View cron.daily y/n: " yorn
 	if [ $yorn == y ]; then
-		ls /etc/cron.daily
+		ls -a /etc/cron.daily
 	fi
 
 	read -p "View cron.hourly y/n: " yorn
 	if [ $yorn == y ]; then
-		ls /etc/cron.hourly
+		ls -a /etc/cron.hourly
 	fi
 
 	read -p "View cron.weekly y/n: " yorn
 	if [ $yorn == y ]; then
-		ls /etc/cron.weekly
+		ls -a /etc/cron.weekly
 	fi
 
 	read -p "View cron.monthly y/n: " yorn
 	if [ $yorn == y ]; then
-		ls /etc/cron.monthly
+		ls -a /etc/cron.monthly
 	fi
 	
 	read -p "View /etc/rc.local y/n: " yorn
@@ -225,17 +238,18 @@ ssh(){
 	read -p "Is SSH a critical service? y/n: " yorn
 	if [ $yorn == y ]; then
 		#install ssh
-		apt-get install ssh
-		apt-get install openssh-server
+		apt-get install ssh -y
+		apt-get install openssh-server -y
 		
+		echo "Opening /etc/ssh/sshd_config"
+		sleep 3s
 		#open /etc/ssh/sshd_config
 		vim /etc/ssh/sshd_config
 
-		#Restart SSH?
-		read -p "Restart SSH? y/n: " yorn
-		if [ $yorn = y ]; then
-			service ssh restart
-		fi
+		#Restart SSH
+		echo "Restarting SSH"
+		sleep 3s
+		service ssh restart
 	elif [ $yorn == n ]; then
 		#uninstall ssh
 		apt-get autoremove --purge ssh
@@ -251,7 +265,14 @@ ssh(){
 
 #Starting the actual checklist, slowly calling all the functions above
 echo "Starting Checklist"
+echo "-------------------------------------------------------------"
 
+#install vim
+echo "Installing Vim ..."
+sleep 3s
+apt-get install vim -y
+
+echo "-------------------------------------------------------------"
 read -p "Starting with Users/Groups, Move on? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -270,6 +291,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Password Requirements? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -288,6 +310,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Disabling Guest? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -304,6 +327,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Updates? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -321,6 +345,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Media/Malware? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -338,6 +363,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to File Permissions? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -354,6 +380,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Firewall? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -370,6 +397,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to Cron? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -388,6 +416,7 @@ fi
 
 
 #yorn: yes or no, ask to move on to the next task
+echo "-------------------------------------------------------------"
 read -p "Move on to SSH? y/n/s (skip): " yorn
 
 #check the value of yorn
@@ -413,6 +442,7 @@ fi
 
 
 #end of script
+echo "-------------------------------------------------------------"
 echo "Done with script! :)"
 
 
