@@ -1,27 +1,34 @@
 #!/bin/bash
 #cyberpatriot ubuntu script: h0dl3 
 
-echo "------------------------------------------------------------"
-echo "Cyberpatriot Ubuntu Script: h0dl3"
-echo "-------------------------------------------------------------"
-echo "FORESNIC README"
+#color variables
+
+RED='\033[0;31m'
+LightBlue='\033[1;34m'
+NC='\033[0m'
+
+
+echo -e "${RED}------------------------------------------------------------"
+echo -e "${LightBlue}Cyberpatriot Ubuntu Script: h0dl3"
+echo -e "${RED}-------------------------------------------------------------"
+echo -e "${LightBlue}FORESNIC README"
 echo "PASSWORD"
-echo "-------------------------------------------------------------"
+echo -e "${RED}-------------------------------------------------------------"
 
 #check if you are running as root
 if [ $USER != root ]; then 
   #not root
-	echo "Retry as root: sudo su"
+	echo -e "${LightBlue}Retry as root: sudo su"
 	exit
 else
 	#root
-	echo "Yay, you are root!"
+	echo -e "${LightBlue}Yay, you are root!"
 fi
 
 #Users/Groups/sudoers
 #users first
 users(){
-	echo "Opening /etc/passwd"
+	echo -e "Opening /etc/passwd"
 	sleep 3s
 	#open /etc/passwd
 	vim /etc/passwd
@@ -29,7 +36,7 @@ users(){
 
 #groups next
 groups(){
-	echo "Opening /etc/group"
+	echo -e "Opening /etc/group"
 	sleep 3s
 	#open /etc/group
 	vim /etc/group
@@ -37,7 +44,7 @@ groups(){
 
 #sudoers last
 sudoers(){
-	echo "Opening sudoers, sudo visudo"
+	echo -e "Opening sudoers, sudo visudo"
 	sleep 3s
 	#open /etc/sudoers
 	sudo visudo
@@ -47,7 +54,7 @@ sudoers(){
 
 #Password Requirements
 logindefs(){
-	echo "Opening /etc/login.defs"
+	echo -e "Opening /etc/login.defs"
 	sleep 3s
 	#open /etc/login.defs
 	vim /etc/login.defs
@@ -56,12 +63,12 @@ logindefs(){
 #PAM
 #common-password
 common-password(){
-	echo "Installing cracklib"
+	echo -e "Installing cracklib${NC}"
 	sleep 3s
 	
 	apt-get install libpam-cracklib -y
 	
-	echo "Opening /etc/pam.d/common-password"
+	echo -e "${LightBlue}Opening /etc/pam.d/common-password"
 	sleep 3s
 	#open /etc/pam.d/common-password
 	vim /etc/pam.d/common-password	
@@ -69,7 +76,7 @@ common-password(){
 
 #common-auth
 common-auth(){
-	echo "Opening /etc/pam.d/common-auth"
+	echo -e "Opening /etc/pam.d/common-auth"
 	sleep 3s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
@@ -80,7 +87,7 @@ common-auth(){
 #Guest Access
 #lightdm
 lightdm(){
-	echo "Opening /etc/lightdm/lightdm.conf"
+	echo -e "Opening /etc/lightdm/lightdm.conf"
 	sleep 3s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
@@ -99,22 +106,25 @@ gui(){
 updates(){
 	#update and upgrade
 	#ask for confirmations before updating/upgrading
-	read -p "Ready to apt-get update? y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'Ready to apt-get update? y/n: ')" yorn
 	if [ $yorn == y ]; then
+		echo -e "${NC}"
 		apt-get update
-		echo "Done with apt-get update"
+		echo -e "${LightBlue}Done with apt-get update"
 	fi
 	
-	read -p "Ready to apt-get upgrade? y/n: " yorn
+	read -p "$(echo -e 'Ready to apt-get upgrade? y/n: ')" yorn
 	if [ $yorn == y ]; then
+		echo -e "${NC}"
 		apt-get upgrade
-		echo "Done with apt-get upgrade"
+		echo -e "${LightBlue}Done with apt-get upgrade"
 	fi
 
-	read -p "Ready to apt-get dist-upgrade? y/n: " yorn
+	read -p "$(echo -e 'Ready to apt-get dist-upgrade? y/n: ')" yorn
 	if [ $yorn == y ]; then
+		echo -e "${NC}"
 		apt-get dist-upgrade
-		echo "Done with apt-get dist-upgrade"
+		echo -e "${LightBlue}Done with apt-get dist-upgrade"
 	fi	
 }
 
@@ -130,9 +140,9 @@ media(){
 	less find_results.txt
 
 
-	read -p "Move on to Malware? y/n: " yorn
+	read -p "$(echo -e 'Move on to Malware? y/n: ')" yorn
 	if [ $yorn == n ]; then
-		echo "Stopping Script :("
+		echo -e "${RED}Stopping Script :(${NC}"
 		exit
 	fi
 }
@@ -144,8 +154,8 @@ malware(){
 	
 	#loop through each application
 	for i in ${mal[*]}; do
-		echo "---------------------------------------------------------"
-		echo "Removing $i"
+		echo -e "${RED}---------------------------------------------------------"
+		echo -e "${LightBlue}Removing $i${NC}"
 		apt-get autoremove --purge $i
 	done
 }
@@ -171,7 +181,7 @@ fileperms(){
 
 #Firewall
 firewall(){
-	echo "Installing Firewall"
+	echo -e "${LightBlue}Installing Firewall${NC}"
 	sleep 3s
 	#install firewall
 	apt-get install ufw
@@ -192,38 +202,38 @@ firewall(){
 
 #Cron
 crontab(){
-	echo "Opening crontab"
+	echo -e "${LightBlue}Opening crontab"
 	sleep 3s
 	#view crontabs
 	sudo crontab -e
 	
 	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
-	read -p "View cron.d y/n: " yorn
+	read -p "$(echo -e 'View cron.d y/n: ')" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.d
 	fi
 
-	read -p "View cron.daily y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'View cron.daily y/n: ')" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.daily
 	fi
 
-	read -p "View cron.hourly y/n: " yorn
+  read -p "$(echo -e ${LightBlue}'View cron.hourly y/n: ')" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.hourly
 	fi
 
-	read -p "View cron.weekly y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'View cron.weekly y/n: ')" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.weekly
 	fi
 
-	read -p "View cron.monthly y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'View cron.monthly y/n: ')" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.monthly
 	fi
 	
-	read -p "View /etc/rc.local y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'View /etc/rc.local y/n: ')" yorn
 	if [ $yorn == y ]; then
 		vim /etc/rc.local
 	fi
@@ -235,19 +245,19 @@ crontab(){
 #SSH
 ssh(){
 	#is ssh a critical service?
-	read -p "Is SSH a critical service? y/n: " yorn
+	read -p "$(echo -e ${LightBlue}'Is SSH a critical service? y/n: ${NC}')" yorn
 	if [ $yorn == y ]; then
 		#install ssh
 		apt-get install ssh -y
 		apt-get install openssh-server -y
 		
-		echo "Opening /etc/ssh/sshd_config"
+		echo -e "${LightBlue}Opening /etc/ssh/sshd_config"
 		sleep 3s
 		#open /etc/ssh/sshd_config
 		vim /etc/ssh/sshd_config
 
 		#Restart SSH
-		echo "Restarting SSH"
+		echo -e "Restarting SSH"
 		sleep 3s
 		service ssh restart
 	elif [ $yorn == n ]; then
@@ -264,25 +274,25 @@ ssh(){
 
 
 #Starting the actual checklist, slowly calling all the functions above
-echo "Starting Checklist"
-echo "-------------------------------------------------------------"
+echo -e "${LightBlue}Starting Checklist"
+echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
-echo "Installing Vim ..."
+echo -e "Installing Vim ...${NC}"
 sleep 3s
 apt-get install vim -y
 
-echo "-------------------------------------------------------------"
-read -p "Starting with Users/Groups, Move on? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Starting with Users/Groups, Move on? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	users
@@ -291,17 +301,17 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Password Requirements? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Password Requirements? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	logindefs
@@ -310,34 +320,34 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Disabling Guest? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Disabling Guest? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	lightdm
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Updates? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Updates? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	gui
@@ -345,17 +355,17 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Media/Malware? y/n/s (skip): " yorn
+echo -e "${Red}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Media/Malware? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	media
@@ -363,51 +373,51 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to File Permissions? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to File Permissions? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	fileperms
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Firewall? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Firewall? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	firewall
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to Cron? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Cron? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	crontab
@@ -416,17 +426,17 @@ fi
 
 
 #yorn: yes or no, ask to move on to the next task
-echo "-------------------------------------------------------------"
-read -p "Move on to SSH? y/n/s (skip): " yorn
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to SSH? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
 	#n, stop script
-	echo "Stopping Script :("
+	echo -e "Stopping Script :("
 	exit
 elif [ $yorn == s ]; then
 	#s, skip
-	echo "Skipped"
+	echo -e "Skipped"
 else
 	#y, call the functions
 	ssh
@@ -442,8 +452,8 @@ fi
 
 
 #end of script
-echo "-------------------------------------------------------------"
-echo "Done with script! :)"
+echo -e "${RED}-------------------------------------------------------------"
+echo -e "${LightBlue}Done with script! :)"
 
 
 
