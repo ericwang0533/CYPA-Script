@@ -110,6 +110,7 @@ updates(){
 	if [ $yorn == y ]; then
 		echo -e "${NC}"
 		apt-get update
+		echo -e "${RED}-------------------------------------------------------------"
 		echo -e "${LightBlue}Done with apt-get update"
 	fi
 	
@@ -117,6 +118,7 @@ updates(){
 	if [ $yorn == y ]; then
 		echo -e "${NC}"
 		apt-get upgrade
+		echo -e "${RED}-------------------------------------------------------------"
 		echo -e "${LightBlue}Done with apt-get upgrade"
 	fi
 
@@ -124,6 +126,7 @@ updates(){
 	if [ $yorn == y ]; then
 		echo -e "${NC}"
 		apt-get dist-upgrade
+		echo -e "${RED}-------------------------------------------------------------"
 		echo -e "${LightBlue}Done with apt-get dist-upgrade"
 	fi	
 }
@@ -150,7 +153,7 @@ media(){
 #malware
 malware(){
 	#array of malware
-	mal=(minetest ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh-server)
+	mal=(minetest nmap aircrack-ng ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh-server)
 	
 	#loop through each application
 	for i in ${mal[*]}; do
@@ -164,7 +167,7 @@ malware(){
 goodprograms(){
 	#install a variety of "good programs"
 	echo -e "${RED}--------------------------------------------------------"
-	echo -e "${LightBlue}Installing some good programs ..."
+	echo -e "${LightBlue}Installing some good programs ...${NC}"
 	sleep 3s
 	apt-get install clamav lynis rkhunter chkrootkit tree debsums -y
 }
@@ -254,7 +257,7 @@ crontab(){
 #SSH
 ssh(){
 	#is ssh a critical service?
-	read -p "$(echo -e ${LightBlue}'Is SSH a critical service? y/n: ${NC}')" yorn
+	read -p "$(echo -e ${LightBlue}'Is SSH a critical service? y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		#install ssh
 		apt-get install ssh -y
@@ -287,7 +290,7 @@ echo -e "${LightBlue}Starting Checklist"
 echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
-echo -e "Installing Vim ...${NC}"
+echo -e "${LightBlue}Installing Vim ...${NC}"
 sleep 1s
 apt-get install vim -y
 
