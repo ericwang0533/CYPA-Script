@@ -28,7 +28,7 @@ fi
 #Users/Groups/sudoers
 #users first
 users(){
-	echo -e "Opening /etc/passwd"
+	echo -e "Opening /etc/passwd ..."
 	sleep 3s
 	#open /etc/passwd
 	vim /etc/passwd
@@ -36,7 +36,7 @@ users(){
 
 #groups next
 groups(){
-	echo -e "Opening /etc/group"
+	echo -e "Opening /etc/group ..."
 	sleep 3s
 	#open /etc/group
 	vim /etc/group
@@ -44,7 +44,7 @@ groups(){
 
 #sudoers last
 sudoers(){
-	echo -e "Opening sudoers, sudo visudo"
+	echo -e "Opening sudo visudo ..."
 	sleep 3s
 	#open /etc/sudoers
 	sudo visudo
@@ -54,7 +54,7 @@ sudoers(){
 
 #Password Requirements
 logindefs(){
-	echo -e "Opening /etc/login.defs"
+	echo -e "Opening /etc/login.defs ..."
 	sleep 3s
 	#open /etc/login.defs
 	vim /etc/login.defs
@@ -63,12 +63,12 @@ logindefs(){
 #PAM
 #common-password
 common-password(){
-	echo -e "Installing cracklib${NC}"
+	echo -e "Installing cracklib ...${NC}"
 	sleep 3s
 	
 	apt-get install libpam-cracklib -y
 	
-	echo -e "${LightBlue}Opening /etc/pam.d/common-password"
+	echo -e "${LightBlue}Opening /etc/pam.d/common-password ..."
 	sleep 3s
 	#open /etc/pam.d/common-password
 	vim /etc/pam.d/common-password	
@@ -76,7 +76,7 @@ common-password(){
 
 #common-auth
 common-auth(){
-	echo -e "Opening /etc/pam.d/common-auth"
+	echo -e "Opening /etc/pam.d/common-auth ..."
 	sleep 3s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
@@ -87,7 +87,7 @@ common-auth(){
 #Guest Access
 #lightdm
 lightdm(){
-	echo -e "Opening /etc/lightdm/lightdm.conf"
+	echo -e "Opening /etc/lightdm/lightdm.conf ..."
 	sleep 3s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
@@ -155,9 +155,18 @@ malware(){
 	#loop through each application
 	for i in ${mal[*]}; do
 		echo -e "${RED}---------------------------------------------------------"
-		echo -e "${LightBlue}Removing $i${NC}"
+		echo -e "${LightBlue}Removing $i ...${NC}"
 		apt-get autoremove --purge $i
 	done
+}
+
+#good programs
+goodprograms(){
+	#install a variety of "good programs"
+	echo -e "${RED}--------------------------------------------------------"
+	echo -e "${LightBlue}Installing some good programs ..."
+	sleep 3s
+	apt-get install clamav lynis rkhunter chkrootkit tree debsums -y
 }
 
 
@@ -181,7 +190,7 @@ fileperms(){
 
 #Firewall
 firewall(){
-	echo -e "${LightBlue}Installing Firewall${NC}"
+	echo -e "${LightBlue}Installing Firewall ...${NC}"
 	sleep 3s
 	#install firewall
 	apt-get install ufw
@@ -202,7 +211,7 @@ firewall(){
 
 #Cron
 crontab(){
-	echo -e "${LightBlue}Opening crontab"
+	echo -e "${LightBlue}Opening crontab ..."
 	sleep 3s
 	#view crontabs
 	sudo crontab -e
@@ -251,7 +260,7 @@ ssh(){
 		apt-get install ssh -y
 		apt-get install openssh-server -y
 		
-		echo -e "${LightBlue}Opening /etc/ssh/sshd_config"
+		echo -e "${LightBlue}Opening /etc/ssh/sshd_config ..."
 		sleep 3s
 		#open /etc/ssh/sshd_config
 		vim /etc/ssh/sshd_config
@@ -279,7 +288,7 @@ echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
 echo -e "Installing Vim ...${NC}"
-sleep 3s
+sleep 1s
 apt-get install vim -y
 
 echo -e "${RED}-------------------------------------------------------------"
@@ -356,7 +365,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${Red}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Media/Malware? y/n/s (skip): ')" yorn
+read -p "$(echo -e $LightBlue'Move on to Media/Programs? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -370,6 +379,7 @@ else
 	#y, call the functions
 	media
 	malware
+	goodprograms
 fi
 
 #yorn: yes or no, ask to move on to the next task
