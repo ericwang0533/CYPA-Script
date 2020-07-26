@@ -1,4 +1,4 @@
-#!/bin/bash
+#bin/bash
 #cyberpatriot ubuntu script: h0dl3 
 
 #color variables
@@ -141,10 +141,6 @@ media(){
 	
 	#open find_results.txt
 	less find_results.txt
-
-
-	echo -e "Moving on to Malware ..."
-	sleep 3s
 }
 
 #malware
@@ -166,7 +162,7 @@ goodprograms(){
 	echo -e "${RED}--------------------------------------------------------"
 	echo -e "${LightBlue}Installing some good programs ...${NC}"
 	sleep 3s
-	apt-get install clamav lynis rkhunter chkrootkit tree debsums -y
+	apt-get install clamav lynis rkhunter chkrootkit -y
 	#install git then linenum and linpeas
 	echo -e "${RED}--------------------------------------------------------"
 	echo -e "${LightBlue}Installing git${NC}"
@@ -179,18 +175,18 @@ goodprograms(){
 	#install LinPeas
 	git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
 }
-
-#tree
-tree(){
+#treet
+treet(){
 	echo -e "${RED}----------------------------------------------------------------"
-	read -p "$(echo -e ${LightBlue}'Run tree, tree -a, or skip? (t, a, s): '${NC})" yorn
+	read -p "$(echo -e ${LightBlue}'Run tree -a, or skip? (t, s): '${NC})" yorn
 	if [ $yorn == t ]; then
-		tree > tree.txt
-		less -r tree.txt
-	elif [ $yorn == a ]; then
-		tree -a > tree.txt
+		tree / -f -a -o tree.txt
 		less -r tree.txt
 	fi
+
+	echo -e "${RED}--------------------------------------------------------------- "
+	echo -e "${LightBlue}Moving to Malware ..."
+	sleep 3s
 }
 
 
@@ -241,27 +237,27 @@ crontab(){
 	sudo crontab -e
 	
 	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
-	read -p "$(echo -e 'View cron.d y/n: ')" yorn
+	read -p "$(echo -e 'View cron.d y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.d
 	fi
 
-	read -p "$(echo -e ${LightBlue}'View cron.daily y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'View cron.daily y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.daily
 	fi
 
-  read -p "$(echo -e ${LightBlue}'View cron.hourly y/n: ')" yorn
+  read -p "$(echo -e ${LightBlue}'View cron.hourly y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.hourly
 	fi
 
-	read -p "$(echo -e ${LightBlue}'View cron.weekly y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'View cron.weekly y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.weekly
 	fi
 
-	read -p "$(echo -e ${LightBlue}'View cron.monthly y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'View cron.monthly y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		ls -a /etc/cron.monthly
 	fi
@@ -311,9 +307,13 @@ echo -e "${LightBlue}Starting Checklist"
 echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
-echo -e "${LightBlue}Installing Vim ...${NC}"
+echo -e "${LightBlue}Installing Useful & Necessary Stuff ...${NC}"
 sleep 1s
-apt-get install vim -y
+apt-get install vim debsums tree -y
+
+#run debsums
+echo -e "${LightBlue}Running a quick debsums check ...${NC}"
+debsums -ce
 
 echo -e "${RED}-------------------------------------------------------------"
 read -p "$(echo -e $LightBlue'Starting with Users/Groups, Move on? y/n/s (skip): ')" yorn
@@ -402,9 +402,9 @@ elif [ $yorn == s ]; then
 else
 	#y, call the functions
 	media
+	treet
 	malware
 	goodprograms
-	tree
 fi
 
 #yorn: yes or no, ask to move on to the next task
