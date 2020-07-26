@@ -143,11 +143,8 @@ media(){
 	less find_results.txt
 
 
-	read -p "$(echo -e 'Move on to Malware? y/n: ')" yorn
-	if [ $yorn == n ]; then
-		echo -e "${RED}Stopping Script :(${NC}"
-		exit
-	fi
+	echo -e "Moving on to Malware ..."
+	sleep 3s
 }
 
 #malware
@@ -170,6 +167,30 @@ goodprograms(){
 	echo -e "${LightBlue}Installing some good programs ...${NC}"
 	sleep 3s
 	apt-get install clamav lynis rkhunter chkrootkit tree debsums -y
+	#install git then linenum and linpeas
+	echo -e "${RED}--------------------------------------------------------"
+	echo -e "${LightBlue}Installing git${NC}"
+	sleep 2s
+	apt-get install git
+	echo -e "${RED}--------------------------------------------------------"
+	echo -e "${LightBlue}Installing LinEnum & LinPEAS${NC}"
+	#install LinEnum
+	git clone https://github.com/rebootuser/LinEnum
+	#install LinPeas
+	git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
+}
+
+#tree
+tree(){
+	echo -e "${RED}----------------------------------------------------------------"
+	read -p "$(echo -e ${LightBlue}'Run tree, tree -a, or skip? (t, a, s): '${NC})" yorn
+	if [ $yorn == t ]; then
+		tree > tree.txt
+		less -r tree.txt
+	elif [ $yorn == a ]; then
+		tree -a > tree.txt
+		less -r tree.txt
+	fi
 }
 
 
@@ -367,7 +388,7 @@ else
 fi
 
 #yorn: yes or no, ask to move on to the next task
-echo -e "${Red}-------------------------------------------------------------"
+echo -e "${RED}-------------------------------------------------------------"
 read -p "$(echo -e $LightBlue'Move on to Media/Programs? y/n/s (skip): ')" yorn
 
 #check the value of yorn
@@ -383,6 +404,7 @@ else
 	media
 	malware
 	goodprograms
+	tree
 fi
 
 #yorn: yes or no, ask to move on to the next task
