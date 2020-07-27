@@ -298,7 +298,12 @@ ssh(){
 
 
 
-
+#sysctl
+sysctl1(){
+	cp /etc/sysctl.conf /etc/sysctlorig.conf
+	cp -f sysctl.conf /etc/sysctl.conf
+	sysctl -e -p /etc/sysctl.conf
+}
 
 
 
@@ -479,6 +484,22 @@ fi
 
 
 
+#yorn: yes or no, ask to move on to the next task
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $LightBlue'Move on to Sysctl? y/n/s (skip): ')" yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo -e "Stopping Script :("
+	exit
+elif [ $yorn == s ]; then
+	#s, skip
+	echo -e "Skipped"
+else
+	#y, call the functions
+	sysctl1
+fi
 
 
 
