@@ -230,7 +230,7 @@ firewall(){
 
 
 #Cron
-crontab(){
+crontab1(){
 	echo -e "${LightBlue}Opening crontab ..."
 	sleep 3s
 	#view crontabs
@@ -262,13 +262,20 @@ crontab(){
 		ls -a /etc/cron.monthly
 	fi
 	
-	read -p "$(echo -e ${LightBlue}'View /etc/rc.local y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'View /etc/rc.local y/n: '${NC})" yorn
 	if [ $yorn == y ]; then
 		vim /etc/rc.local
 	fi
 
 }
 
+#cron of everyone (cron1)
+cron1(){
+	for user in $(getent passwd | cut -f1 -d: ); do
+		echo -e "${LightBlue}$user${NC}"
+		crontab -u $user -l
+	done
+}
 
 
 #SSH
@@ -460,7 +467,8 @@ elif [ $yorn == s ]; then
 	echo -e "Skipped"
 else
 	#y, call the functions
-	crontab
+	crontab1
+	cron1
 fi
 
 
