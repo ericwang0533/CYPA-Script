@@ -5,14 +5,15 @@
 
 RED='\033[0;31m'
 LightBlue='\033[1;34m'
+GREEN='\033[1;32m'
 NC='\033[0m'
 
-
 echo -e "${RED}------------------------------------------------------------"
-echo -e "${LightBlue}Cyberpatriot Ubuntu Script: h0dl3"
+echo -e "${GREEN}Cyberpatriot Ubuntu Script: h0dl3"
 echo -e "${RED}-------------------------------------------------------------"
-echo -e "${LightBlue}FORESNIC README"
+echo -e "${GREEN}FORESNIC README"
 echo "PASSWORD"
+echo "SCREENSAVER"
 echo -e "${RED}-------------------------------------------------------------"
 
 #check if you are running as root
@@ -191,10 +192,12 @@ goodprograms(){
 #treet
 treet(){
 	echo -e "${RED}----------------------------------------------------------------"
-	read -p "$(echo -e ${LightBlue}'Run tree -a, or skip? (t, s): '${NC})" yorn
-	if [ $yorn == t ]; then
+	read -p "$(echo -e ${LightBlue}'Run tree -a? y/n: '${NC})" yorn
+	if [ $yorn == y ]; then
 		tree / -f -a -o tree.txt
 		less -r tree.txt
+		tree /home -f -a -o treehome.txt
+		less -r treehome.txt
 	fi
 
 	echo -e "${RED}--------------------------------------------------------------- "
@@ -348,14 +351,14 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	users
 	groups
 	sudoers
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -367,14 +370,14 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	logindefs
 	common-password
 	common-auth
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -386,12 +389,12 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	lightdm
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -403,13 +406,13 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	gui
 	updates
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -421,15 +424,15 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	media
 	treet
 	malware
 	goodprograms
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -441,12 +444,12 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	fileperms
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -458,12 +461,12 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	firewall
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 #yorn: yes or no, ask to move on to the next task
@@ -475,13 +478,13 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	crontab1
 	cron1
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 
@@ -495,12 +498,12 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	ssh
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 
@@ -514,12 +517,12 @@ if [ $yorn == n ]; then
 	#n, stop script
 	echo -e "Stopping Script :("
 	exit
-elif [ $yorn == s ]; then
-	#s, skip
-	echo -e "Skipped"
-else
+elif [ $yorn == y ]; then
 	#y, call the functions
 	sysctl1
+else
+	#s, skip
+	echo -e "Skipped"
 fi
 
 
@@ -530,8 +533,10 @@ fi
 
 #end of script
 echo -e "${RED}-------------------------------------------------------------"
-echo -e "${LightBlue}Done with script! :)"
-
+echo -e "${GREEN}Done with script! :)"
+echo -e "${RED}-------------------------------------------------------------"
+echo -e "${GREEN}REMINDERS"
+echo -e "${GREEN}NONE YET${NC}"
 
 
 
