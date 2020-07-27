@@ -91,6 +91,19 @@ lightdm(){
 	sleep 3s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
+	
+	#replace guest file
+	read -p "$(echo -e 'Replace guest file? y/n: ')" yorn
+	if [ $yorn == y ]; then
+		echo -e "[SeatDefaults]\nautologin-guest=false\nautologin-user=none\nautologin-user-timeout=0\nautologin-session=lightdm-autologin\nallow-guest=false\ngreeter-hide-users=true" >> /etc/lightdm/lightdm.conf
+	fi
+
+	#reopen guest file?
+	read -p "$(echo -e 'Reopen /etc/lightdm/lightdm.conf? y/n: ')" yorn
+	if [ $yorn == y ]; then
+		#reopen /etc/lightdm/lightdm.conf
+		vim /etc/lightdm/lightdm.conf
+	fi
 }
 
 
