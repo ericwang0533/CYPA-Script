@@ -120,29 +120,31 @@ gui(){
 updates(){
 	#update and upgrade
 	#ask for confirmations before updating/upgrading
-	read -p "$(echo -e ${LightBlue}'Ready to apt-get update? y/n: ')" yorn
+	read -p "$(echo -e ${GREEN}'Ready to apt-get (update, upgrade, dist-upgrade)'${NC})" yorn
+	#read -p "$(echo -e ${LightBlue}'Ready to apt-get update? y/n: ')" yorn
 	if [ $yorn == y ]; then
-		echo -e "${NC}"
-		apt-get update
-		echo -e "${RED}-------------------------------------------------------------"
-		echo -e "${LightBlue}Done with apt-get update"
+		#echo -e "${NC}"
+		#apt-get update
+		#echo -e "${RED}-------------------------------------------------------------"
+		#echo -e "${LightBlue}Done with apt-get update"
+    gnome-terminal -e "bash -c \"(apt-get update; apt-get upgrade -y; apt-get dist-upgrade -y)\"" & disown; sleep 2; 
 	fi
 	
-	read -p "$(echo -e 'Ready to apt-get upgrade? y/n: ')" yorn
-	if [ $yorn == y ]; then
-		echo -e "${NC}"
-		apt-get upgrade
-		echo -e "${RED}-------------------------------------------------------------"
-		echo -e "${LightBlue}Done with apt-get upgrade"
-	fi
+	#read -p "$(echo -e 'Ready to apt-get upgrade? y/n: ')" yorn
+	#if [ $yorn == y ]; then
+	#	echo -e "${NC}"
+	#	apt-get upgrade
+	#	echo -e "${RED}-------------------------------------------------------------"
+	#	echo -e "${LightBlue}Done with apt-get upgrade"
+	#fi
 
-	read -p "$(echo -e 'Ready to apt-get dist-upgrade? y/n: ')" yorn
-	if [ $yorn == y ]; then
-		echo -e "${NC}"
-		apt-get dist-upgrade
-		echo -e "${RED}-------------------------------------------------------------"
-		echo -e "${LightBlue}Done with apt-get dist-upgrade"
-	fi	
+	#read -p "$(echo -e 'Ready to apt-get dist-upgrade? y/n: ')" yorn
+	#if [ $yorn == y ]; then
+	#	echo -e "${NC}"
+	#	apt-get dist-upgrade
+	#	echo -e "${RED}-------------------------------------------------------------"
+	#	echo -e "${LightBlue}Done with apt-get dist-upgrade"
+	#fi	
 }
 
 
