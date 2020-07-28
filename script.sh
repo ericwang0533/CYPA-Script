@@ -16,20 +16,39 @@ echo "PASSWORD"
 echo "SCREENSAVER"
 echo -e "${RED}-------------------------------------------------------------"
 
+
+
 #check if you are running as root
 if [ $USER != root ]; then 
   #not root
-	echo -e "${LightBlue}Retry as root: sudo su"
+	echo -e "${GREEN}Retry as root: sudo su"
 	exit
 else
 	#root
-	echo -e "${LightBlue}Yay, you are root!"
+	echo -e "${GREEN}Yay, you are root!"
 fi
+
+
+
+#Updates
+updates(){
+	#open software and updates through gui
+	software-properties-gtk	
+ 	echo -e "${NC}"	
+	read -p "$(echo -e ${GREEN}'Ready to apt-get (update, upgrade, dist-upgrade)? y/n: '${NC})" yorn
+
+	#update all at once in a seperate terminal
+	if [ $yorn == y ]; then
+    gnome-terminal -e "bash -c \"(apt-get update; apt-get upgrade -y; apt-get dist-upgrade -y)\"" & disown; sleep 2; 
+	fi
+}
+
+
 
 #Users/Groups/sudoers
 #users first
 users(){
-	echo -e "Opening /etc/passwd ..."
+	echo -e "${LightBlue}Opening /etc/passwd ..."
 	sleep 3s
 	#open /etc/passwd
 	vim /etc/passwd
@@ -37,7 +56,7 @@ users(){
 
 #groups next
 groups(){
-	echo -e "Opening /etc/group ..."
+	echo -e "${LightBlue}Opening /etc/group ..."
 	sleep 3s
 	#open /etc/group
 	vim /etc/group
@@ -45,7 +64,7 @@ groups(){
 
 #sudoers last
 sudoers(){
-	echo -e "Opening sudo visudo ..."
+	echo -e "${LightBlue}Opening sudo visudo ..."
 	sleep 3s
 	#open /etc/sudoers
 	sudo visudo
@@ -55,7 +74,7 @@ sudoers(){
 
 #Password Requirements
 logindefs(){
-	echo -e "Opening /etc/login.defs ..."
+	echo -e "${LightBlue}Opening /etc/login.defs ..."
 	sleep 3s
 	#open /etc/login.defs
 	vim /etc/login.defs
@@ -64,7 +83,7 @@ logindefs(){
 #PAM
 #common-password
 common-password(){
-	echo -e "Installing cracklib ...${NC}"
+	echo -e "${LightBlue}Installing cracklib ...${NC}"
 	sleep 3s
 	
 	apt-get install libpam-cracklib -y
@@ -77,7 +96,7 @@ common-password(){
 
 #common-auth
 common-auth(){
-	echo -e "Opening /etc/pam.d/common-auth ..."
+	echo -e "${LightBlue}Opening /etc/pam.d/common-auth ..."
 	sleep 3s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
@@ -88,63 +107,23 @@ common-auth(){
 #Guest Access
 #lightdm
 lightdm(){
-	echo -e "Opening /etc/lightdm/lightdm.conf ..."
+	echo -e "${LightBlue}Opening /etc/lightdm/lightdm.conf ..."
 	sleep 3s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
 	
 	#replace guest file
-	read -p "$(echo -e 'Replace guest file? y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'Replace guest file? y/n: ')" yorn
 	if [ $yorn == y ]; then
 		echo -e "[SeatDefaults]\nautologin-guest=false\nautologin-user=none\nautologin-user-timeout=0\nautologin-session=lightdm-autologin\nallow-guest=false\ngreeter-hide-users=true" >> /etc/lightdm/lightdm.conf
 	fi
 
 	#reopen guest file?
-	read -p "$(echo -e 'Reopen /etc/lightdm/lightdm.conf? y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'Reopen /etc/lightdm/lightdm.conf? y/n: ')" yorn
 	if [ $yorn == y ]; then
 		#reopen /etc/lightdm/lightdm.conf
 		vim /etc/lightdm/lightdm.conf
 	fi
-}
-
-
-
-#Updates
-#gui
-gui(){
-	#open software and updates through gui
-	software-properties-gtk
-}
-
-#updates
-updates(){
-	#update and upgrade
-	#ask for confirmations before updating/upgrading
-	read -p "$(echo -e ${GREEN}'Ready to apt-get (update, upgrade, dist-upgrade)'${NC})" yorn
-	#read -p "$(echo -e ${LightBlue}'Ready to apt-get update? y/n: ')" yorn
-	if [ $yorn == y ]; then
-		#echo -e "${NC}"
-		#apt-get update
-		#echo -e "${RED}-------------------------------------------------------------"
-		#echo -e "${LightBlue}Done with apt-get update"
-    gnome-terminal -e "bash -c \"(apt-get update; apt-get upgrade -y; apt-get dist-upgrade -y)\"" & disown; sleep 2; 
-	fi
-	
-	#read -p "$(echo -e 'Ready to apt-get upgrade? y/n: ')" yorn
-	#if [ $yorn == y ]; then
-	#	echo -e "${NC}"
-	#	apt-get upgrade
-	#	echo -e "${RED}-------------------------------------------------------------"
-	#	echo -e "${LightBlue}Done with apt-get upgrade"
-	#fi
-
-	#read -p "$(echo -e 'Ready to apt-get dist-upgrade? y/n: ')" yorn
-	#if [ $yorn == y ]; then
-	#	echo -e "${NC}"
-	#	apt-get dist-upgrade
-	#	echo -e "${RED}-------------------------------------------------------------"
-	#	echo -e "${LightBlue}Done with apt-get dist-upgrade"
-	#fi	
 }
 
 
@@ -211,6 +190,7 @@ treet(){
 
 #File Permissions
 fileperms(){
+	echo -e "${NC}"
 	chown root:root /etc/securetty
 	chmod 0600 /etc/securetty
 	chmod 644 /etc/crontab
@@ -311,7 +291,7 @@ ssh(){
 		vim /etc/ssh/sshd_config
 
 		#Restart SSH
-		echo -e "Restarting SSH"
+		echo -e "${LightBlue}Restarting SSH"
 		sleep 3s
 		service ssh restart
 	elif [ $yorn == n ]; then
@@ -333,7 +313,7 @@ sysctl1(){
 
 
 #Starting the actual checklist, slowly calling all the functions above
-echo -e "${LightBlue}Starting Checklist"
+echo -e "${GREEN}Starting Checklist"
 echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
@@ -345,8 +325,25 @@ apt-get install vim debsums tree -y
 echo -e "${LightBlue}Running a quick debsums check ...${NC}"
 debsums -ce
 
+#yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Starting with Users/Groups, Move on? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Starting with Updates? y/n/s (skip): ')" yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo -e "Stopping Script :("
+	exit
+elif [ $yorn == y ]; then
+	#y, call the functions
+	updates
+else
+	#s, skip
+	echo -e "Skipped"
+fi
+
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $GREEN'Move on to Users/Groups, Move on? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -365,7 +362,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Password Requirements? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Password Requirements? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -384,7 +381,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Disabling Guest? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Disabling Guest? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -401,25 +398,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Updates? y/n/s (skip): ')" yorn
-
-#check the value of yorn
-if [ $yorn == n ]; then
-	#n, stop script
-	echo -e "Stopping Script :("
-	exit
-elif [ $yorn == y ]; then
-	#y, call the functions
-	gui
-	updates
-else
-	#s, skip
-	echo -e "Skipped"
-fi
-
-#yorn: yes or no, ask to move on to the next task
-echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Media/Programs? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Media/Programs? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -439,7 +418,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to File Permissions? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to File Permissions? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -456,7 +435,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Firewall? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Firewall? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -473,7 +452,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Cron? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Cron? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -493,7 +472,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to SSH? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to SSH? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -512,7 +491,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $LightBlue'Move on to Sysctl? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Sysctl? y/n/s (skip): ')" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
