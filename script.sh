@@ -102,14 +102,23 @@ logindefs(){
 #common-password
 common-password(){
 	echo -e "${LightBlue}Installing cracklib ...${NC}"
-	sleep 2s
-	
+	sleep 2s	
 	apt-get install libpam-cracklib -y
 	
 	echo -e "${LightBlue}Opening /etc/pam.d/common-password ..."
 	sleep 2s
 	#open /etc/pam.d/common-password
 	vim /etc/pam.d/common-password	
+
+	#replace common-password
+	cp /etc/pam.d/common-password /etc/pam.d/common-password1
+	sed -i "s/password\trequisite\t\t\tpam.cracklib.so/password\trequisite\t\t\tpam.cracklib.so dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 reject_username minclass=3 maxrepeat=2 gecoscheck enforce_for_root/" /etc/pam.d/common-password
+	sed -i "s/pam_unix.so/pam_unix.so rounds=8000 shadow remember=7/" /etc/pam.d/common-password
+
+	#reopen /etc/pam.d/common-password
+	echo -e "${LightBlue}Reopening /etc/pam.d/common-password ..."
+	sleep 2s
+	vim /etc/pam.d/common-password
 }
 
 #common-auth
