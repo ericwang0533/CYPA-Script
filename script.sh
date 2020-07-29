@@ -6,10 +6,13 @@
 RED='\033[0;31m'
 LightBlue='\033[1;34m'
 GREEN='\033[1;32m'
+CYAN='\033[1;36m'
 NC='\033[0m'
 
 echo -e "${RED}------------------------------------------------------------"
-echo -e "${GREEN}Cyberpatriot Ubuntu Script: h0dl3"
+echo -e "${RED}------------------------------------------------------------"
+echo -e "${RED}------------------------------------------------------------"
+echo -e "${CYAN}Cyberpatriot Ubuntu Script: h0dl3"
 echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}FORESNIC README"
 echo "PASSWORD"
@@ -21,11 +24,11 @@ echo -e "${RED}-------------------------------------------------------------"
 #check if you are running as root
 if [ $USER != root ]; then 
   #not root
-	echo -e "${GREEN}Retry as root: sudo su"
+	echo -e "${CYAN}Retry as root: sudo su"
 	exit
 else
 	#root
-	echo -e "${GREEN}Yay, you are root!"
+	echo -e "${LightBlue}Yay, you are root!"
 fi
 
 
@@ -33,9 +36,10 @@ fi
 #Updates
 updates(){
 	#open software and updates through gui
-	software-properties-gtk	
- 	echo -e "${NC}"	
-	read -p "$(echo -e ${GREEN}'Ready to apt-get (update, upgrade, dist-upgrade)? y/n: '${NC})" yorn
+ 	echo -e "${NC}"
+	software-properties-gtk
+	echo -e "${RED}---------------------------------------------------------"
+	read -p "$(echo -e ${GREEN}'Ready to apt-get (update, upgrade, dist-upgrade)? y/n: '${CYAN})" yorn
 
 	#update all at once in a seperate terminal
 	if [ $yorn == y ]; then
@@ -49,7 +53,7 @@ updates(){
 #users first
 users(){
 	echo -e "${LightBlue}Opening /etc/passwd ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/passwd
 	vim /etc/passwd
 }
@@ -57,7 +61,7 @@ users(){
 #groups next
 groups(){
 	echo -e "${LightBlue}Opening /etc/group ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/group
 	vim /etc/group
 }
@@ -65,7 +69,7 @@ groups(){
 #sudoers last
 sudoers(){
 	echo -e "${LightBlue}Opening sudo visudo ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/sudoers
 	sudo visudo
 }
@@ -75,21 +79,35 @@ sudoers(){
 #Password Requirements
 logindefs(){
 	echo -e "${LightBlue}Opening /etc/login.defs ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/login.defs
 	vim /etc/login.defs
+	
+	read -p "$(echo -e ${LightBlue}'Replace /etc/login.defs? y/n: ')${CYAN}" yorn
+	#replce /etc/login/defs
+	if [ $yorn == y ]; then
+		cp /etc/login.defs /etc/login.defs1
+		sed -i "s/PASS_MAX_DAYS 99999/PASS_MAX_DAYS 90/" /etc/login.defs
+		sed -i "s/PASS_0_DAYS 0/PASS_MIN_DAYS 7/" /etc/login.defs
+		sed -i "s/PASS_WARN_AGE 7/PASS_WARN_AGE 14/" /etc/login.defs
+		
+		#reoopen /etc/login.defs
+		echo -e "${LightBlue}Reopening /etc/login.defs ..."
+		sleep 2s
+		vim /etc/login.defs	
+	fi
 }
 
 #PAM
 #common-password
 common-password(){
 	echo -e "${LightBlue}Installing cracklib ...${NC}"
-	sleep 3s
+	sleep 2s
 	
 	apt-get install libpam-cracklib -y
 	
 	echo -e "${LightBlue}Opening /etc/pam.d/common-password ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/pam.d/common-password
 	vim /etc/pam.d/common-password	
 }
@@ -97,7 +115,7 @@ common-password(){
 #common-auth
 common-auth(){
 	echo -e "${LightBlue}Opening /etc/pam.d/common-auth ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
 }
@@ -108,20 +126,19 @@ common-auth(){
 #lightdm
 lightdm(){
 	echo -e "${LightBlue}Opening /etc/lightdm/lightdm.conf ..."
-	sleep 3s
+	sleep 2s
 	#open /etc/lightdm/lightdm.conf
 	vim /etc/lightdm/lightdm.conf
 	
 	#replace guest file
-	read -p "$(echo -e ${LightBlue}'Replace guest file? y/n: ')" yorn
+	read -p "$(echo -e ${LightBlue}'Replace guest file? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
+		cp /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf1
 		echo -e "[SeatDefaults]\nautologin-guest=false\nautologin-user=none\nautologin-user-timeout=0\nautologin-session=lightdm-autologin\nallow-guest=false\ngreeter-hide-users=true" >> /etc/lightdm/lightdm.conf
-	fi
-
-	#reopen guest file?
-	read -p "$(echo -e ${LightBlue}'Reopen /etc/lightdm/lightdm.conf? y/n: ')" yorn
-	if [ $yorn == y ]; then
+		
 		#reopen /etc/lightdm/lightdm.conf
+		echo -e "Reopening /etc/lightdm/lightdm.conf ..."
+		sleep 2s
 		vim /etc/lightdm/lightdm.conf
 	fi
 }
@@ -156,7 +173,7 @@ goodprograms(){
 	#install a variety of "good programs"
 	echo -e "${RED}--------------------------------------------------------"
 	echo -e "${LightBlue}Installing some good programs ...${NC}"
-	sleep 3s
+	sleep 2s
 	apt-get install clamav lynis rkhunter chkrootkit -y
 	#install git then linenum and linpeas
 	echo -e "${RED}--------------------------------------------------------"
@@ -173,7 +190,7 @@ goodprograms(){
 #treet
 treet(){
 	echo -e "${RED}----------------------------------------------------------------"
-	read -p "$(echo -e ${LightBlue}'Run tree -a? y/n: '${NC})" yorn
+	read -p "$(echo -e ${LightBlue}'Run tree -a? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		tree / -f -a -o tree.txt
 		less -r tree.txt
@@ -183,7 +200,7 @@ treet(){
 
 	echo -e "${RED}--------------------------------------------------------------- "
 	echo -e "${LightBlue}Moving to Malware ..."
-	sleep 3s
+	sleep 2s
 }
 
 
@@ -209,7 +226,7 @@ fileperms(){
 #Firewall
 firewall(){
 	echo -e "${LightBlue}Installing Firewall ...${NC}"
-	sleep 3s
+	sleep 2s
 	#install firewall
 	apt-get install ufw
 
@@ -230,37 +247,28 @@ firewall(){
 #Cron
 crontab1(){
 	echo -e "${LightBlue}Opening crontab ..."
-	sleep 3s
+	sleep 2s
 	#view crontabs
 	sudo crontab -e
 	
 	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
-	read -p "$(echo -e 'View cron.d y/n: '${NC})" yorn
+	read -p "$(echo -e 'View cron directories? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
+		echo -e "${RED}------------------------------------"
+		echo -e "${LightBlue}/etc/cron.d${NC}"
 		ls -a /etc/cron.d
-	fi
-
-	read -p "$(echo -e ${LightBlue}'View cron.daily y/n: '${NC})" yorn
-	if [ $yorn == y ]; then
+		echo -e "${LightBlue}/etc/cron.daily${NC}"
 		ls -a /etc/cron.daily
-	fi
-
-  read -p "$(echo -e ${LightBlue}'View cron.hourly y/n: '${NC})" yorn
-	if [ $yorn == y ]; then
+		echo -e "${LightBlue}/etc/cron.hourly${NC}"
 		ls -a /etc/cron.hourly
-	fi
-
-	read -p "$(echo -e ${LightBlue}'View cron.weekly y/n: '${NC})" yorn
-	if [ $yorn == y ]; then
+		echo -e "${LightBlue}/etc/cron.weekly${NC}"
 		ls -a /etc/cron.weekly
+		echo -e "${LightBlue}/etc/cron.monthly${NC}"
+		ls -a /etc/cron.monthly
+		echo -e "${RED}------------------------------------"
 	fi
 
-	read -p "$(echo -e ${LightBlue}'View cron.monthly y/n: '${NC})" yorn
-	if [ $yorn == y ]; then
-		ls -a /etc/cron.monthly
-	fi
-	
-	read -p "$(echo -e ${LightBlue}'View /etc/rc.local y/n: '${NC})" yorn
+	read -p "$(echo -e ${LightBlue}'View /etc/rc.local y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		vim /etc/rc.local
 	fi
@@ -269,35 +277,38 @@ crontab1(){
 
 #cron of everyone (cron1)
 cron1(){
+	echo -e "${NC}"
+	rm -r allcron.txt
 	for user in $(getent passwd | cut -f1 -d: ); do
-		echo -e "${LightBlue}$user${NC}"
-		crontab -u $user -l
+		echo -e "${LightBlue}$user${NC}" >> allcron.txt
+		echo -e "${NC}$(crontab -u $user -l)${NC}" >> allcron.txt
 	done
+	less -r allcron.txt
 }
 
 
 #SSH
 ssh(){
 	#is ssh a critical service?
-	read -p "$(echo -e ${LightBlue}'Is SSH a critical service? y/n: '${NC})" yorn
+	read -p "$(echo -e ${LightBlue}'Is SSH a critical service? y/n: '${CYAN})" yorn
+	echo -e "${NC}"
 	if [ $yorn == y ]; then
 		#install ssh
 		apt-get install ssh -y
 		apt-get install openssh-server -y
 		
 		echo -e "${LightBlue}Opening /etc/ssh/sshd_config ..."
-		sleep 3s
+		sleep 2s
 		#open /etc/ssh/sshd_config
 		vim /etc/ssh/sshd_config
 
 		#Restart SSH
 		echo -e "${LightBlue}Restarting SSH"
-		sleep 3s
-		service ssh restart
+		sleep 2s
+		sudo service ssh restart
 	elif [ $yorn == n ]; then
 		#uninstall ssh
-		apt-get autoremove --purge ssh
-		apt-get autoremove --purge openssh-server
+		apt-get autoremove --purge ssh openssh-server
 	fi
 }
 
@@ -305,6 +316,7 @@ ssh(){
 
 #sysctl
 sysctl1(){
+	echo -e "${NC}"
 	cp /etc/sysctl.conf /etc/sysctlorig.conf
 	cp -f sysctl.conf /etc/sysctl.conf
 	sysctl -e -p /etc/sysctl.conf
@@ -313,7 +325,7 @@ sysctl1(){
 
 
 #Starting the actual checklist, slowly calling all the functions above
-echo -e "${GREEN}Starting Checklist"
+echo -e "${CYAN}Starting Checklist"
 echo -e "${RED}-------------------------------------------------------------"
 
 #install vim
@@ -327,7 +339,7 @@ debsums -ce
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Starting with Updates? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Starting with Updates? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -343,7 +355,7 @@ else
 fi
 
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Users/Groups, Move on? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Users/Groups, Move on? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -362,7 +374,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Password Requirements? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Password Requirements? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -381,7 +393,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Disabling Guest? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Disabling Guest? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -398,7 +410,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Media/Programs? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Media/Programs? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -418,7 +430,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to File Permissions? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to File Permissions? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -435,7 +447,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Firewall? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Firewall? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -452,7 +464,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Cron? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Cron? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -472,7 +484,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to SSH? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to SSH? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -491,7 +503,7 @@ fi
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
-read -p "$(echo -e $GREEN'Move on to Sysctl? y/n/s (skip): ')" yorn
+read -p "$(echo -e $GREEN'Move on to Sysctl? y/n/s (skip): '${CYAN})" yorn
 
 #check the value of yorn
 if [ $yorn == n ]; then
@@ -514,10 +526,10 @@ fi
 
 #end of script
 echo -e "${RED}-------------------------------------------------------------"
-echo -e "${GREEN}Done with script! :)"
+echo -e "${CYAN}Done with script! :)"
 echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}REMINDERS"
-echo -e "${GREEN}NONE YET${NC}"
+echo -e "${CYAN}NONE YET${NC}"
 
 
 
