@@ -83,13 +83,13 @@ logindefs(){
 	#open /etc/login.defs
 	vim /etc/login.defs
 	
-	read -p "$(echo -e ${LightBlue}'Replace /etc/login.defs? y/n: ')${CYAN}" yorn
+	read -p "$(echo -e ${LightBlue}'Replace /etc/login.defs? y/n: '${CYAN})" yorn
 	#replce /etc/login/defs
 	if [ $yorn == y ]; then
 		cp /etc/login.defs /etc/login.defs1
-		sed -i "s/PASS_MAX_DAYS 99999/PASS_MAX_DAYS 90/" /etc/login.defs
-		sed -i "s/PASS_0_DAYS 0/PASS_MIN_DAYS 7/" /etc/login.defs
-		sed -i "s/PASS_WARN_AGE 7/PASS_WARN_AGE 14/" /etc/login.defs
+		sed -i "s/PASS_MAX_DAYS	99999/PASS_MAX_DAYS 90/" /etc/login.defs
+		sed -i "s/PASS_MIN_DAYS	0/PASS_MIN_DAYS 7/" /etc/login.defs
+		sed -i "s/PASS_WARN_AGE	7/PASS_WARN_AGE 14/" /etc/login.defs
 		
 		#reoopen /etc/login.defs
 		echo -e "${LightBlue}Reopening /etc/login.defs ..."
