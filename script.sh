@@ -111,14 +111,17 @@ common-password(){
 	vim /etc/pam.d/common-password	
 
 	#replace common-password
-	cp /etc/pam.d/common-password /etc/pam.d/common-password1
-	sed -i "s/password\trequisite\t\t\tpam.cracklib.so/password\trequisite\t\t\tpam.cracklib.so dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 reject_username minclass=3 maxrepeat=2 gecoscheck enforce_for_root/" /etc/pam.d/common-password
-	sed -i "s/pam_unix.so/pam_unix.so rounds=8000 shadow remember=7/" /etc/pam.d/common-password
-
-	#reopen /etc/pam.d/common-password
-	echo -e "${LightBlue}Reopening /etc/pam.d/common-password ..."
-	sleep 2s
-	vim /etc/pam.d/common-password
+	read -p "$(echo -e ${LightBlue}'Replace /etc/pam.d/common-password? y/n: '${CYAN})" yorn
+	if [ $yorn == y ]; then
+		cp /etc/pam.d/common-password /etc/pam.d/common-password1
+		sed -i "s/password\trequisite\t\t\tpam_cracklib.so/password\trequisite\t\t\tpam.cracklib.so dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 reject_username minclass=3 maxrepeat=2 gecoscheck enforce_for_root/" /etc/pam.d/common-password
+		sed -i "s/pam_unix.so/pam_unix.so rounds=8000 shadow remember=7/" /etc/pam.d/common-password
+	
+		#reopen /etc/pam.d/common-password
+		echo -e "${LightBlue}Reopening /etc/pam.d/common-password ..."
+		sleep 2s
+		vim /etc/pam.d/common-password
+	fi
 }
 
 #common-auth
@@ -127,6 +130,17 @@ common-auth(){
 	sleep 2s
 	#open /etc/pam.d/common-auth
 	vim /etc/pam.d/common-auth
+
+	read -p "$(echo -e ${LightBlue}'Replace /etc/pam.d/common-auth? y/n: '${CYAN})" yorn
+	if [ $yorn == y ]; then
+		cp /etc/pam.d/common-auth /etc/pam.d/common-auth1
+		echo -e "auth\trequired\t\t\tpam_tally2.so oneer=seccess audit silent deny=5 unlock_time=900" >> /etc/pam.d/common-auth
+	
+		#reopen /etc/pam.d/common-auth
+		echo -e "${LightBlue}Reopening /etc/pam.d/common-auth ..."
+		sleep 2s
+		vim /etc/pam.d/common-auth
+	fi
 }
 
 
