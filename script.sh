@@ -17,8 +17,9 @@ echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}FORESNIC README"
 echo "PASSWORD"
 echo "SCREENSAVER"
+echo "HISTORY"
 echo -e "${RED}-------------------------------------------------------------"
-
+read -p "$(echo -e ${LightBlue}'Are you ready? '${CYAN})"
 
 
 #check if you are running as root
@@ -114,7 +115,7 @@ common-password(){
 	read -p "$(echo -e ${LightBlue}'Replace /etc/pam.d/common-password? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		cp /etc/pam.d/common-password /etc/pam.d/common-password1
-		sed -i "s/password\trequisite\t\t\tpam_cracklib.so/password\trequisite\t\t\tpam.cracklib.so dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 reject_username minclass=3 maxrepeat=2 gecoscheck enforce_for_root/" /etc/pam.d/common-password
+		sed -i "s/password\trequisite\t\t\tpam_cracklib.so/password\trequisite\t\t\tpam_cracklib.so dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 reject_username minclass=3 maxrepeat=2 gecoscheck enforce_for_root/" /etc/pam.d/common-password
 		sed -i "s/pam_unix.so/pam_unix.so rounds=8000 shadow remember=7/" /etc/pam.d/common-password
 	
 		#reopen /etc/pam.d/common-password
@@ -157,10 +158,10 @@ lightdm(){
 	read -p "$(echo -e ${LightBlue}'Replace guest file? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		cp /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf1
-		echo -e "[SeatDefaults]\nautologin-guest=false\nautologin-user=none\nautologin-user-timeout=0\nautologin-session=lightdm-autologin\nallow-guest=false\ngreeter-hide-users=true" >> /etc/lightdm/lightdm.conf
+		echo -e "[SeatDefaults]\nautologin-guest=false\nautologin-user=none\nautologin-user-timeout=0\nautologin-session=lightdm-autologin\nallow-guest=false\ngreeter-hide-users=true" > /etc/lightdm/lightdm.conf
 		
 		#reopen /etc/lightdm/lightdm.conf
-		echo -e "Reopening /etc/lightdm/lightdm.conf ..."
+		echo -e "${LightBlue}Reopening /etc/lightdm/lightdm.conf ..."
 		sleep 2s
 		vim /etc/lightdm/lightdm.conf
 	fi
@@ -300,8 +301,8 @@ crontab1(){
 
 #cron of everyone (cron1)
 cron1(){
-	echo -e "${NC}"
-	rm -r allcron.txt
+	echo -e "${LightBlue}Viewing all cron ...${NC}"
+	sleep 2s
 	for user in $(getent passwd | cut -f1 -d: ); do
 		echo -e "${LightBlue}$user${NC}" >> allcron.txt
 		echo -e "${NC}$(crontab -u $user -l)${NC}" >> allcron.txt
