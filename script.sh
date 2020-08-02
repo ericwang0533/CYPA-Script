@@ -259,19 +259,19 @@ fileperms(){
 	chown root:root /etc/gshadow
 	chmod 700 /boot
 	chown root:root /etc/anacrontab
-	chmod og-rwx /etc/anacrontab
+	chmod 600 /etc/anacrontab
 	chown root:root /etc/crontab
-	chmod og-rwx /etc/crontab
+	chmod 600 /etc/crontab
 	chown root:root /etc/cron.hourly
-	chmod og-rwx /etc/cron.hourly
+	chmod 600 /etc/cron.hourly
 	chown root:root /etc/cron.daily
-	chmod og-rwx /etc/cron.daily
+	chmod 600 /etc/cron.daily
 	chown root:root /etc/cron.weekly
-	chmod og-rwx /etc/cron.weekly
+	chmod 600 /etc/cron.weekly
 	chown root:root /etc/cron.monthly
-	chmod og-rwx /etc/cron.monthly
+	chmod 600 /etc/cron.monthly
 	chown root:root /etc/cron.d
-	chmod og-rwx /etc/cron.d
+	chmod 600 /etc/cron.d
 }
 
 
