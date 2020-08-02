@@ -182,13 +182,21 @@ media(){
 #malware
 malware(){
 	#array of malware
-	mal=(minetest nmap aircrack-ng ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd-basic filezilla postgresql irssi telnet telnetd samba apache2 ftp vsftpd netcat* openssh-server)
+	malnames=(freeciv minetest nmap aircrack-ng ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd filezilla postgresql irssi telnet samba apache2 ftp vsftpd netcat ssh)
+	mal=(freeciv minetest "nmap zenmap" aircrack-ng ophcrack "john john-data" logkeys "hydra hydra-gtk" "fakeroot libfakeroot" crack "medusa libssh2-1" nikto "tightvnc xtightvncviewer" "bind9 bind9utils" "avahi avahi-autoipd avahi-daemon avahi-utils" "cupsd " postfix "nginx nginx-core nginx-common" frostwire wireshark "vuze azureus" weplab pyrit "mysql-server php5-mysql" php5 proftpd-basic filezilla postgresql irssi "telnet openbsd-inetd telnetd" "samba samba-common samba-common-bin" "apache2 apache2.2-bin" ftp vsftpd netcat* "openssh-server openssh-client ssh")
 	
 	#loop through each application
-	for i in ${mal[*]}; do
+	j = 1;
+echo -e "${CYAN}PASSWORDS${NC}"
+	for i in ${malnames[*]}; do
 		echo -e "${RED}---------------------------------------------------------"
+		#echo -e "${CYAN}$i"
+		#echo -e "${malnames[i]}"
+		#echo -e "$j"
+		#echo -e "${mal[$j]}"
 		echo -e "${LightBlue}Removing $i ...${NC}"
-		apt-get autoremove --purge $i
+		apt-get autoremove --purge ${mal[$j]}
+		j=$((j=j+1))
 	done
 }
 
@@ -553,7 +561,12 @@ echo -e "${RED}-------------------------------------------------------------"
 echo -e "${CYAN}Done with script! :)"
 echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}REMINDERS"
-echo -e "${CYAN}NONE YET${NC}"
+echo -e "${RED}-------------------------------------------------------------"
+echo -e "${CYAN}PASSWORDS${NC}"
+echo -e "${CYAN}CHECK LOGS${NC}"
+echo -e "${CYAN}${NC}"
+echo -e "${CYAN}CRITICAL SERVICES${NC}"
+echo -e "${CYAN}README${NC}"
 
 
 
