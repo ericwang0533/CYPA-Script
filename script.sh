@@ -249,8 +249,29 @@ fileperms(){
 	chmod 400 /etc/inetd.d
 	chmod 644 /etc/hosts.allow
 	chmod 440 /etc/sudoers
-	chmod 640 /etc/shadow
+	chmod 600 /etc/shadow
 	chown root:root /etc/shadow
+	chmod 644 /etc/passwd
+	chown root:root /etc/passwd
+	chmod 644 /etc/group
+	chown root:root /etc/group
+	chmod 600 /etc/gshadow
+	chown root:root /etc/gshadow
+	chmod 700 /boot
+	chown root:root /etc/anacrontab
+	chmod og-rwx /etc/anacrontab
+	chown root:root /etc/crontab
+	chmod og-rwx /etc/crontab
+	chown root:root /etc/cron.hourly
+	chmod og-rwx /etc/cron.hourly
+	chown root:root /etc/cron.daily
+	chmod og-rwx /etc/cron.daily
+	chown root:root /etc/cron.weekly
+	chmod og-rwx /etc/cron.weekly
+	chown root:root /etc/cron.monthly
+	chmod og-rwx /etc/cron.monthly
+	chown root:root /etc/cron.d
+	chmod og-rwx /etc/cron.d
 }
 
 
@@ -338,6 +359,7 @@ ssh(){
 		echo -e "${LightBlue}Restarting SSH"
 		sleep 2s
 		sudo service ssh restart
+		sudo service sshd restart
 	elif [ $yorn == n ]; then
 		#uninstall ssh
 		apt-get autoremove --purge ssh openssh-server
@@ -367,7 +389,7 @@ apt-get install vim debsums tree -y
 
 #run debsums
 echo -e "${LightBlue}Running a quick debsums check ...${NC}"
-debsums -ce
+debsums -cae
 
 #yorn: yes or no, ask to move on to the next task
 echo -e "${RED}-------------------------------------------------------------"
