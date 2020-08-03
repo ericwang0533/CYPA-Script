@@ -187,7 +187,6 @@ malware(){
 	
 	#loop through each application
 	j = 1;
-echo -e "${CYAN}PASSWORDS${NC}"
 	for i in ${malnames[*]}; do
 		echo -e "${RED}---------------------------------------------------------"
 		#echo -e "${CYAN}$i"
@@ -198,6 +197,9 @@ echo -e "${CYAN}PASSWORDS${NC}"
 		apt-get autoremove --purge ${mal[$j]}
 		j=$((j=j+1))
 	done
+
+	dpkg-query --list | grep -e "game" -e "freeciv" -e "minetest" -e "nmap" -e "crack" -e "john" -e "logkey" -e "hydra" -e "fakeroot" -e "medusa" -e "nikto" -e "tightvnc" -e "bind9" -e "avahi" -e "cupsd" -e "nginx" -e "wireshark" -e "frostwire" -e "vuze" -e "weplab" -e "pyrit" -e "mysql" -e "php" -e "ftp" -e "filezilla" -e "postgresql" -e "irssi" -e "telnet" -e "samba" -e "apache" -e "netcat" -e "ssh" -e "password" -e "trojan" -e "Trojan" -e "Hack" -e "hack" -e "server" > dpkg.txt
+	less dpkg.txt
 }
 
 #good programs
@@ -206,7 +208,7 @@ goodprograms(){
 	echo -e "${RED}--------------------------------------------------------"
 	echo -e "${LightBlue}Installing some good programs ...${NC}"
 	sleep 2s
-	apt-get install clamav lynis rkhunter chkrootkit -y
+	apt-get install clamav lynis rkhunter chkrootkit synaptic -y
 	#install git then linenum and linpeas
 	echo -e "${RED}--------------------------------------------------------"
 	echo -e "${LightBlue}Installing git${NC}"
@@ -588,8 +590,11 @@ echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}REMINDERS"
 echo -e "${RED}-------------------------------------------------------------"
 echo -e "${CYAN}PASSWORDS${NC}"
+echo -e "${CYAN}ROOT PASSWORD${NC}"
 echo -e "${CYAN}CHECK LOGS${NC}"
-echo -e "${CYAN}${NC}"
+echo -e "${CYAN}MEDIA${NC}"
+echo -e "${CYAN}ALIASES${NC}"
+echo -e "${CYAN}SYNAPTIC${NC}"
 echo -e "${CYAN}CRITICAL SERVICES${NC}"
 echo -e "${CYAN}README${NC}"
 
