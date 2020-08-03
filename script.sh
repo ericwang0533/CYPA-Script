@@ -18,6 +18,7 @@ echo -e "${GREEN}FORESNIC README"
 echo "PASSWORD"
 echo "SCREENSAVER"
 echo "HISTORY"
+echo "FILE GUI HISTORY"
 echo -e "${RED}-------------------------------------------------------------"
 read -p "$(echo -e ${LightBlue}'Are you ready? '${CYAN})"
 
@@ -186,8 +187,8 @@ media(){
 #malware
 malware(){
 	#array of malware
-	malnames=(freeciv minetest nmap aircrack-ng ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd filezilla postgresql irssi telnet samba apache2 ftp vsftpd netcat ssh)
-	mal=(freeciv minetest "nmap zenmap" aircrack-ng ophcrack "john john-data" logkeys "hydra hydra-gtk" "fakeroot libfakeroot" crack "medusa libssh2-1" nikto "tightvnc xtightvncviewer" "bind9 bind9utils" "avahi avahi-autoipd avahi-daemon avahi-utils" "cupsd " postfix "nginx nginx-core nginx-common" frostwire wireshark "vuze azureus" weplab pyrit "mysql-server php5-mysql" php5 proftpd-basic filezilla postgresql irssi "telnet openbsd-inetd telnetd" "samba samba-common samba-common-bin" "apache2 apache2.2-bin" ftp vsftpd netcat* "openssh-server openssh-client ssh")
+	malnames=(rsh freeciv minetest nmap aircrack-ng ophcrack john logkeys hydra fakeroot crack medusa nikto tightvnc bind9 avahi cupsd postfix nginx frostwire wireshark vuze weplab pyrit mysql php5 proftpd filezilla postgresql irssi telnet samba apache2 ftp vsftpd netcat ssh)
+	mal=(rsh-client freeciv minetest "nmap zenmap" aircrack-ng ophcrack "john john-data" logkeys "hydra hydra-gtk" "fakeroot libfakeroot" crack "medusa libssh2-1" nikto "tightvnc xtightvncviewer" "bind9 bind9utils bind9-host" "avahi avahi-autoipd avahi-daemon avahi-utils" "cupsd " postfix "nginx nginx-core nginx-common" frostwire wireshark "vuze azureus" weplab pyrit "mysql-server php5-mysql" php5 proftpd-basic filezilla postgresql irssi "telnet openbsd-inetd telnetd" "samba samba-common samba-common-bin" "apache2 apache2.2-bin" ftp vsftpd netcat* "openssh-server openssh-client ssh")
 	
 	#loop through each application
 	j = 1;
