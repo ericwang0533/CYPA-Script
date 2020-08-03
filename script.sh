@@ -304,7 +304,7 @@ crontab1(){
 	#view crontabs
 	sudo crontab -e
 	
-	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly)
+	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly) % /var/spool/cron/crontabs
 	read -p "$(echo -e 'View cron directories? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		echo -e "${RED}------------------------------------"
@@ -318,6 +318,9 @@ crontab1(){
 		ls -a /etc/cron.weekly
 		echo -e "${LightBlue}/etc/cron.monthly${NC}"
 		ls -a /etc/cron.monthly
+		
+		echo -e "${LightBlue}/var/spool/cron/crontabs"
+		ls -a /var/spool/cron/crontabs
 		echo -e "${RED}------------------------------------"
 	fi
 
