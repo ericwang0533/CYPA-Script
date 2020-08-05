@@ -79,6 +79,26 @@ sudoers(){
 
 
 #Password Requirements
+changepass(){
+	echo -e "${LightBlue}Changing password of every user ...${NC}"
+	sleep 2s
+	
+	#grab all the users
+	cat /etc/passwd | grep "/home" | cut -d":" -f1 > user-list.txt
+
+	#open user-list.txt
+	vim user-list.txt
+
+	#start changing passwords
+	while IFS= read -r user; do
+		echo -e "H3LL0@gmail.com\nH3LL0@gmail.com" | passwd $user
+		echo -e "${LightBlue}Finished changing ${CYAN}$user's${LightBlue} password${NC}"
+	done < user-list.txt
+
+	echo -e "Done changing passwords"
+	sleep 4s
+}
+
 logindefs(){
 	echo -e "${LightBlue}Opening /etc/login.defs ..."
 	sleep 2s
@@ -447,6 +467,7 @@ if [ $yorn == n ]; then
 	exit
 elif [ $yorn == y ]; then
 	#y, call the functions
+	changepass
 	logindefs
 	common-password
 	common-auth
