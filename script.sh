@@ -331,8 +331,43 @@ crontab1(){
 	#view crontabs
 	sudo crontab -e
 	
+	#cron.allow, at.allow, cron.deny, at.deny
+	echo -e "${RED}-----------------------------------"
+	echo -e "${LightBlue}Fixing cron.allow, at.allow, cron.deny and at.deny ...${NC}"
+	sleep 2s
+	
+	#make backups
+	cp /etc/cron.deny /etc/cron.deny1
+	cp /etc/at.deny /etc/at.deny1
+	
+	#remove deny files
+	rm -r /etc/cron.deny /etc/at.deny
+	
+	#make backups
+	cp /etc/cron.allow /etc/cron.allow1
+	cp /etc/at.allow /etc/at.allow1
+	
+	#fix allow files
+	echo "root" | tee /etc/cron.allow /etc/at.allow > /dev/null
+	chown root:root /etc/cron.allow /etc/at.allow
+	chmod 400 /etc/cron.allow /etc/at.allow
+	
+	#cat the contents of old files
+	echo -e "${LightBlue}Viewing old files ...${NC}"
+	sleep 2s
+	cat /etc/cron.deny1
+	echo -e "${RED}-----------------------------------${NC}"
+	cat /etc/at.deny1
+	echo -e "${RED}-----------------------------------${NC}"
+	cat /etc/cron.allow1
+	echo -e "${RED}-----------------------------------${NC}"
+	cat /etc/at.allow1
+	
+	echo -e "${LightBlue}Done with cron.allow, at.allow, cron.deny and at.deny"
+	echo -e "${RED}-----------------------------------"
+
 	#view /etc/cron.(d)(daily)(hourly)(weekly)(monthly) % /var/spool/cron/crontabs
-	read -p "$(echo -e 'View cron directories? y/n: '${CYAN})" yorn
+	read -p "$(echo -e ${LightBlue}'View cron directories? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		echo -e "${RED}------------------------------------"
 		echo -e "${LightBlue}/etc/cron.d${NC}"
