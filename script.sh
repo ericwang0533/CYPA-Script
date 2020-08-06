@@ -263,8 +263,8 @@ firefox1(){
 		sudo apt-get --purge --reinstall install firefox -y
 		
 		#reopen firefox
-		read -p "$(echo -e ${LightBlue}'Enter username for reopening firefox: '${CYAN})" username
-		su $username -c "firefox &"
+		#read -p "$(echo -e ${LightBlue}'Enter username for reopening firefox: '${CYAN})" username
+		#su $username -c "firefox &"
 	fi
 }
 
