@@ -457,7 +457,7 @@ rkhunter1(){
 #lynis
 lynis1(){
 	echo -e "${LightBlue}Running lynis"
-	lynis -c > logs/lynis.txt
+	lynis -c --quick > logs/lynis.txt
 }
 
 #clamav
