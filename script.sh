@@ -443,6 +443,45 @@ sysctl1(){
 
 
 
+#antiviruses/scans
+#rkhunter
+rkhunter1(){
+	echo -e "${LightBlue}Running rkhunter"
+	rkhunter -c --sk > logs/rkhunter.txt 
+	#(rkhunter -c --rwo > logs/rkhunter.txt) & disown; sleep 2;
+}
+
+#lynis
+lynis1(){
+	echo -e "${LightBlue}Running lynis"
+	lynis -c > logs/lynis.txt
+}
+
+#clamav
+clamav1(){
+	echo "3"
+	#screw clam bruh, way too broke 
+	clamscan -rbell -i / > logs/clamav.txt
+}
+
+#chkrootkit
+chkrootkit1(){
+	echo -e "${LightBlue}Running chkrootkit"
+	chkrootkit -q > logs/chkrootkit.txt
+}
+
+#linpeas
+linpeas(){
+	echo -e "${LightBlue}Running linpeas"
+	./privilege-escalation-awesome-scripts-suite/linPEAS/linpeas.sh > logs/linpeas.txt
+}
+
+#linenum
+linenum(){
+	echo -e "${LightBlue}Running linenum"
+	./LinEnum/LinEnum.sh > logs/linenum.txt
+}
+
 #Starting the actual checklist, slowly calling all the functions above
 echo -e "${CYAN}Starting Checklist"
 echo -e "${RED}-------------------------------------------------------------"
@@ -640,6 +679,29 @@ fi
 
 
 
+#yorn: yes or no, ask to move on to the next task
+echo -e "${RED}-------------------------------------------------------------"
+read -p "$(echo -e $GREEN'Move on to setting up antiviruses/scans? y/n/s (skip): '${CYAN})" yorn
+
+#check the value of yorn
+if [ $yorn == n ]; then
+	#n, stop script
+	echo -e "Stopping Script :("
+	exit
+elif [ $yorn == y ]; then
+	#y, call the functions
+	#rm -rf logs
+	mkdir logs
+	rkhunter1
+	lynis1
+	#clamav1
+	chkrootkit1
+	linpeas
+	linenum
+else
+	#s, skip
+	echo -e "Skipped"
+fi
 
 
 
