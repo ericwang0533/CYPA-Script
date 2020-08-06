@@ -715,14 +715,18 @@ echo -e "${CYAN}Done with script! :)"
 echo -e "${RED}-------------------------------------------------------------"
 echo -e "${GREEN}REMINDERS"
 echo -e "${RED}-------------------------------------------------------------"
-echo -e "${CYAN}PASSWORDS${NC}"
-echo -e "${CYAN}ROOT PASSWORD${NC}"
+echo -e "${CYAN}ROOT PASSWORD LOCK${NC}"
 echo -e "${CYAN}CHECK LOGS${NC}"
 echo -e "${CYAN}MEDIA${NC}"
-echo -e "${CYAN}ALIASES${NC}"
 echo -e "${CYAN}SYNAPTIC${NC}"
+echo -e "${CYAN}ALIASES${NC}"
+echo -e "${CYAN}/ETC${NC}"
+echo -e "${CYAN}FIREFOX${NC}"
 echo -e "${CYAN}CRITICAL SERVICES${NC}"
 echo -e "${CYAN}README${NC}"
+echo -e "${CYAN}NOTES${NC}"
+echo -e "${CYAN}trust the process${NC}"
+
 
 
 
