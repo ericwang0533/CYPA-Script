@@ -85,6 +85,9 @@ changepass(){
 	
 	#grab all the users
 	cat /etc/passwd | grep "/home" | cut -d":" -f1 > user-list.txt
+	
+	#add root
+	echo root >> user-list.txt
 
 	#open user-list.txt
 	vim user-list.txt
