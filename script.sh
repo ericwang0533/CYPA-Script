@@ -256,9 +256,15 @@ firefox1(){
 	read -p "$(echo -e ${LightBlue}'Reinstall firefox? y/n: '${CYAN})" yorn
 	if [ $yorn == y ]; then
 		#kills firefox
+		echo -e "${NC}Killing firefox ..."
+		sleep 2s
 		pkill -f firefox
 		
-		echo -e "${NC}$(sudo apt-get --purge --reinstall install firefox -y)"
+		sudo apt-get --purge --reinstall install firefox -y
+		
+		#reopen firefox
+		read -p "$(echo -e ${LightBlue}'Enter username for reopening firefox: '${CYAN})" username
+		su $username -c "firefox &"
 	fi
 }
 
