@@ -249,6 +249,19 @@ goodprograms(){
 	#install LinPeas
 	git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
 }
+
+#firefox
+firefox1(){
+	echo -e "${RED}----------------------------------------------------------------"
+	read -p "$(echo -e ${LightBlue}'Reinstall firefox? y/n: '${CYAN})" yorn
+	if [ $yorn == y ]; then
+		#kills firefox
+		pkill -f firefox
+		
+		echo -e "${NC}$(sudo apt-get --purge --reinstall install firefox -y)"
+	fi
+}
+
 #treet
 treet(){
 	echo -e "${RED}----------------------------------------------------------------"
@@ -585,6 +598,7 @@ elif [ $yorn == y ]; then
 	treet
 	malware
 	goodprograms
+	firefox1
 else
 	#s, skip
 	echo -e "Skipped"
