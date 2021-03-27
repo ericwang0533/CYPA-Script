@@ -1,5 +1,5 @@
 #bin/bash
-#cyberpatriot ubuntu script: h0dl3 
+#cyberpatriot ubuntu script: created by Eric Wang 
 
 #color variables
 
